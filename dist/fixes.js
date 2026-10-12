@@ -1,8 +1,43 @@
 (() => {
-  const key='burnfit-data-v1'; let data=JSON.parse(localStorage.getItem(key)||'null');
-  if(data&&data.streakVersion!==3){data.streak=0;data.workouts=0;data.workoutDone=false;data.completedDates=[];data.streakVersion=3;localStorage.setItem(key,JSON.stringify(data));location.reload();return}
-  const foods={chicken:['鸡胸肉',165,31,0,3.6],rice:['白米饭',130,2.4,28,.3],egg:['鸡蛋',143,13,.7,9.5],oats:['燕麦',389,17,66,7],banana:['香蕉',89,1.1,23,.3],salmon:['三文鱼',208,20,0,13],broccoli:['西兰花',34,2.8,7,.4]};
-  const old=document.querySelector('#mealForm');if(old){const form=old.cloneNode(false);form.innerHTML=`<label>食物<select id="mealFood">${Object.entries(foods).map(([id,f])=>`<option value="${id}">${f[0]}</option>`).join('')}</select></label><label>重量（g）<input id="mealWeight" type="number" min="1" value="100" required /></label><p id="mealEstimate" class="muted"></p><button class="primary" type="submit">自动计算并加入</button>`;old.replaceWith(form);const preview=()=>{const f=foods[form.querySelector('#mealFood').value],n=+form.querySelector('#mealWeight').value/100;form.querySelector('#mealEstimate').textContent=`约 ${Math.round(f[1]*n)} kcal · 蛋白质 ${(f[2]*n).toFixed(1)} g · 碳水 ${(f[3]*n).toFixed(1)} g · 脂肪 ${(f[4]*n).toFixed(1)} g`};form.querySelector('#mealFood').onchange=preview;form.querySelector('#mealWeight').oninput=preview;preview();form.onsubmit=e=>{e.preventDefault();const f=foods[form.querySelector('#mealFood').value],n=+form.querySelector('#mealWeight').value/100,s=JSON.parse(localStorage.getItem(key)),m={name:`${f[0]} ${Math.round(n*100)}g`,calories:Math.round(f[1]*n),protein:+(f[2]*n).toFixed(1)};s.meals.push(m);s.calories+=m.calories;s.protein+=m.protein;s.carbs+=Math.round(f[3]*n);s.fat+=Math.round(f[4]*n);localStorage.setItem(key,JSON.stringify(s));location.reload()}}
-  const en={'今天，离目标更近一点':'One step closer to your goal.','把注意力放在下一件该做的小事上。':'Focus on the next small thing you can do.','连续记录':'Streak','天':'days','训练':'Workout','热量':'Calories','蛋白质':'Protein','本周体重':'Weekly weight','今日训练':'Today’s workout','待开始':'Not started','已完成':'Completed','完成训练':'Complete workout','今日训练已完成':'Workout completed','行动建议':'Next step','记录一餐 →':'Log a meal →','训练计划':'Workout plan','自己的計劃，自己排':'Build your own plan.','标记今日完成':'Mark today complete','本周安排':'This week','自訂訓練日':'Custom workout day','建立你的計劃':'Build your plan','安排在':'Day','計劃名稱':'Plan name','選擇動作':'Exercise','自訂動作':'Custom exercise','組數':'Sets','次數 / 時間':'Reps / time','加入動作':'Add exercise','儲存本日計劃':'Save plan','訓練記錄':'Workout log','主觀難度 RPE':'Difficulty RPE','完成情況':'Completion','訓練備註':'Notes','保存訓練記錄':'Save workout log','饮食记录':'Food log','吃得清楚，练得踏实':'Eat clearly. Train confidently.','今日营养预算':'Today’s nutrition','添加一餐':'Add food','今天吃了什么':'Today’s food','进展追踪':'Progress','慢一点，但持续向前':'Slowly, consistently forward.','记录体重':'Log weight','体重趋势':'Weight trend','本周总结':'Weekly summary','设置':'Settings','設定':'Settings','個人化':'Personalization','語言':'Language','字體':'Typeface','頁面主題色':'Accent color','自动计算并加入':'Calculate & add','重量（g）':'Weight (g)'},ja={'今天，离目标更近一点':'今日も、目標に一歩近づこう。','把注意力放在下一件该做的小事上。':'次にできる小さな一歩に集中しましょう。','连续记录':'連続記録','天':'日','训练':'トレーニング','热量':'カロリー','蛋白质':'たんぱく質','本周体重':'今週の体重','今日训练':'今日のトレーニング','待开始':'未開始','已完成':'完了','完成训练':'トレーニング完了','今日训练已完成':'完了しました','行动建议':'次のアクション','记录一餐 →':'食事を記録 →','训练计划':'トレーニング計画','自己的計劃，自己排':'自分の計画を作ろう。','标记今日完成':'今日を完了にする','本周安排':'今週の予定','自訂訓練日':'カスタム日','建立你的計劃':'計画を作成','安排在':'曜日','計劃名稱':'計画名','選擇動作':'種目を選択','自訂動作':'カスタム種目','組數':'セット','次數 / 時間':'回数 / 時間','加入動作':'種目を追加','儲存本日計劃':'計画を保存','訓練記錄':'トレーニング記録','主觀難度 RPE':'主観的強度 RPE','完成情況':'完了状況','訓練備註':'メモ','保存訓練記錄':'記録を保存','饮食记录':'食事記録','吃得清楚，练得踏实':'食べて、強くなる。','今日营养预算':'今日の栄養','添加一餐':'食事を追加','今天吃了什么':'今日の食事','进展追踪':'進捗','慢一点，但持续向前':'ゆっくり、着実に前へ。','记录体重':'体重を記録','体重趋势':'体重の推移','本周总结':'今週のまとめ','設定':'設定','個人化':'パーソナライズ','語言':'言語','字體':'書体','頁面主題色':'テーマカラー','自动计算并加入':'自動計算して追加','重量（g）':'重量（g）'};
-  const translate=()=>{const lang=JSON.parse(localStorage.getItem(key)||'{}').settings?.language,dict=lang==='en'?en:lang==='ja'?ja:null;if(!dict)return;document.documentElement.lang=lang;const walk=n=>{if(n.nodeType===3){let v=n.nodeValue;Object.entries(dict).sort((a,b)=>b[0].length-a[0].length).forEach(([a,b])=>v=v.replaceAll(a,b));n.nodeValue=v}else if(n.nodeType===1&&!['SCRIPT','STYLE'].includes(n.tagName))[...n.childNodes].forEach(walk)};walk(document.body)};translate();document.querySelectorAll('[data-language]').forEach(b=>b.addEventListener('click',()=>setTimeout(()=>location.reload(),0)));
+  const key = 'burnfit-data-v1';
+  const data = JSON.parse(localStorage.getItem(key) || 'null');
+  if (data && data.streakVersion !== 3) {
+    Object.assign(data, { streak: 0, workouts: 0, workoutDone: false, completedDates: [], streakVersion: 3 });
+    localStorage.setItem(key, JSON.stringify(data));
+    location.reload();
+    return;
+  }
+  const foods = {
+    chicken: ['鸡胸肉', 165, 31, 0, 3.6], rice: ['白米饭', 130, 2.4, 28, 0.3], egg: ['鸡蛋', 143, 13, 0.7, 9.5], oats: ['燕麦', 389, 17, 66, 7], banana: ['香蕉', 89, 1.1, 23, 0.3], salmon: ['三文鱼', 208, 20, 0, 13], broccoli: ['西兰花', 34, 2.8, 7, 0.4]
+  };
+  const oldForm = document.querySelector('#mealForm');
+  if (!oldForm) return;
+  const form = oldForm.cloneNode(false);
+  form.innerHTML = `<label>食物<select id="mealFood">${Object.entries(foods).map(([id, food]) => `<option value="${id}">${food[0]}</option>`).join('')}</select></label><label>重量（g）<input id="mealWeight" type="number" min="1" value="100" required></label><p id="mealEstimate" class="muted"></p><button class="primary" type="submit">自动计算并加入</button>`;
+  oldForm.replaceWith(form);
+  const preview = () => {
+    const food = foods[form.querySelector('#mealFood').value];
+    const factor = Number(form.querySelector('#mealWeight').value || 0) / 100;
+    form.querySelector('#mealEstimate').textContent = `约 ${Math.round(food[1] * factor)} kcal · 蛋白质 ${(food[2] * factor).toFixed(1)} g · 碳水 ${(food[3] * factor).toFixed(1)} g · 脂肪 ${(food[4] * factor).toFixed(1)} g`;
+  };
+  form.querySelector('#mealFood').addEventListener('change', preview);
+  form.querySelector('#mealWeight').addEventListener('input', preview);
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const food = foods[form.querySelector('#mealFood').value];
+    const grams = Number(form.querySelector('#mealWeight').value);
+    if (!Number.isFinite(grams) || grams <= 0) return;
+    const factor = grams / 100;
+    const state = JSON.parse(localStorage.getItem(key) || '{}');
+    const meal = { name: `${food[0]} ${Math.round(grams)}g`, calories: Math.round(food[1] * factor), protein: Number((food[2] * factor).toFixed(1)) };
+    state.meals = state.meals || [];
+    state.meals.push(meal);
+    state.calories = (state.calories || 0) + meal.calories;
+    state.protein = (state.protein || 0) + meal.protein;
+    state.carbs = (state.carbs || 0) + Math.round(food[3] * factor);
+    state.fat = (state.fat || 0) + Math.round(food[4] * factor);
+    localStorage.setItem(key, JSON.stringify(state));
+    location.reload();
+  });
+  preview();
 })();
