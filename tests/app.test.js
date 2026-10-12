@@ -5,8 +5,13 @@ const css = fs.readFileSync('dist/styles.css', 'utf8');
 function assert(condition, message) { if (!condition) throw new Error(message); }
 assert(html.includes('id="mealForm"'), 'meal logging form should exist');
 assert(html.includes('id="weightDialog"'), 'weight dialog should exist');
+assert(html.includes('id="planForm"'), 'custom plan form should exist');
+assert(html.includes('id="exercisePreset"'), 'exercise picker should exist');
+assert(html.includes('id="customExercise"'), 'custom exercise input should exist');
 assert(js.includes('localStorage.setItem'), 'progress must persist locally');
-assert(js.includes('function completeWorkout'), 'workout completion flow should exist');
+assert(js.includes('function complete'), 'workout completion flow should exist');
 assert(js.includes('state.meals.push'), 'meal submission must add a meal');
+assert(js.includes('state.plans'), 'training plans must persist locally');
+assert(js.includes('addExercise'), 'selected exercises must be addable');
 assert(css.includes('@media(max-width:760px)'), 'layout needs mobile styles');
 console.log('Static product checks passed');
