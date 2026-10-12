@@ -24,6 +24,8 @@ assert(js.includes('applyLanguage'), 'language choice should be applied at runti
 assert(js.includes('copy'), 'translation dictionary should exist');
 assert(js.includes('completedDates'), 'training completion dates should be stored');
 assert(js.includes('calculateStreak'), 'streak should be calculated from real dates');
+assert(fs.readFileSync('dist/fixes.js', 'utf8').includes('mealWeight'), 'food logging should accept a weight');
+assert(fs.readFileSync('dist/fixes.js', 'utf8').includes('foods'), 'food nutrition database should exist');
 assert(css.includes('@media(max-width:760px)'), 'layout needs mobile styles');
 assert(css.includes('-apple-system'), 'interface should use platform system typography');
 assert(css.includes('backdrop-filter:blur'), 'navigation should use translucent glass treatment');
