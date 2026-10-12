@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="燃点健身：训练、饮食与进展追踪。" />
+    <title>燃点健身</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#dashboard" aria-label="燃点健身首页"><span class="brand-mark">↗</span>燃点健身</a>
+        <nav aria-label="主导航">
+          <button class="nav-link active" data-view="dashboard">今日</button>
+          <button class="nav-link" data-view="workout">训练</button>
+          <button class="nav-link" data-view="nutrition">饮食</button>
+          <button class="nav-link" data-view="progress">进展</button>
+        </nav>
+        <button id="resetData" class="icon-button" title="恢复演示数据" aria-label="恢复演示数据">↻</button>
+      </header>
+
+      <section id="dashboard" class="view active" aria-labelledby="today-title">
+        <div class="hero"><div><p class="eyebrow" id="todayDate">周一 · 10月12日</p><h1 id="today-title">今天，离目标更近一点</h1><p class="muted">把注意力放在下一件该做的小事上。</p></div><div class="streak"><span>连续记录</span><strong id="streakValue">6</strong><small>天</small></div></div>
+        <div class="metric-grid" aria-label="今日目标进度">
+          <article class="metric-card"><span>训练</span><strong id="workoutProgress">0 / 1</strong><small>完成今天的训练计划</small></article>
+          <article class="metric-card"><span>热量</span><strong><b id="calorieRemaining">1,480</b> kcal</strong><small>今日剩余</small></article>
+          <article class="metric-card"><span>蛋白质</span><strong><b id="proteinValue">42</b> / 120 g</strong><small>优先保证恢复</small></article>
+          <article class="metric-card"><span>本周体重</span><strong id="weightTrend">−0.3 kg</strong><small>较上周平均</small></article>
+        </div>
+        <div class="dashboard-grid">
+          <article class="panel workout-panel"><div class="panel-heading"><div><p class="eyebrow">今日训练</p><h2>下肢力量 A</h2></div><span class="status" id="workoutStatus">待开始</span></div><p class="muted">45–55 分钟 · RPE 7 · 4 个动作</p><ol class="exercise-list"><li>杠铃深蹲 <span>4 × 8</span></li><li>罗马尼亚硬拉 <span>3 × 10</span></li><li>保加利亚分腿蹲 <span>3 × 10</span></li><li>平板支撑 <span>3 × 45 秒</span></li></ol><button id="completeWorkout" class="primary">完成训练</button></article>
+          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">行动建议</p><h2 id="coachTitle">先完成训练，再补一餐蛋白质</h2></div><span class="coach-dot"></span></div><p id="coachAdvice" class="advice">你昨天已完成饮食记录。今天的训练计划已排好，完成后可用一份酸奶或鸡胸肉补足蛋白质。</p><button class="text-button" data-view-target="nutrition">记录一餐 →</button></article>
+        </div>
+      </section>
+
+      <section id="workout" class="view" aria-labelledby="workout-title"><div class="page-heading"><div><p class="eyebrow">训练计划</p><h1 id="workout-title">有节奏地变强</h1></div><button class="primary" id="workoutQuickComplete">标记今日完成</button></div><div class="split-layout"><article class="panel"><h2>本周安排</h2><div class="week-list" id="weekList"></div></article><article class="panel"><p class="eyebrow">训练记录</p><h2>下肢力量 A</h2><form id="workoutForm"><label>主观难度 RPE<input id="rpe" type="number" min="1" max="10" value="7" required /></label><label>训练备注<textarea id="workoutNotes" placeholder="例如：深蹲最后一组状态很好"></textarea></label><button class="primary" type="submit">保存训练记录</button></form><p id="workoutSaved" class="form-message" role="status"></p></article></div></section>
+
+      <section id="nutrition" class="view" aria-labelledby="nutrition-title"><div class="page-heading"><div><p class="eyebrow">饮食记录</p><h1 id="nutrition-title">吃得清楚，练得踏实</h1></div></div><div class="nutrition-grid"><article class="panel macro-panel"><h2>今日营养预算</h2><div class="calorie-ring"><span id="ringCalories">620</span><small>/ 2100 kcal</small></div><div class="macros"><div><span>蛋白质</span><b id="macroProtein">42 / 120 g</b></div><div><span>碳水</span><b id="macroCarbs">78 / 230 g</b></div><div><span>脂肪</span><b id="macroFat">18 / 65 g</b></div></div></article><article class="panel"><h2>添加一餐</h2><form id="mealForm" class="meal-form"><label>食物<input id="mealName" required placeholder="例如：鸡胸肉饭" /></label><div class="form-row"><label>热量<input id="mealCalories" type="number" min="0" required placeholder="kcal" /></label><label>蛋白质<input id="mealProtein" type="number" min="0" required placeholder="g" /></label></div><button class="primary" type="submit">加入今日饮食</button></form><p id="mealSaved" class="form-message" role="status"></p></article></div><article class="panel meal-history"><div class="panel-heading"><h2>今天吃了什么</h2><span id="mealCount">2 餐</span></div><ul id="mealList"></ul></article></section>
+
+      <section id="progress" class="view" aria-labelledby="progress-title"><div class="page-heading"><div><p class="eyebrow">进展追踪</p><h1 id="progress-title">慢一点，但持续向前</h1></div><button id="addWeightButton" class="primary">记录体重</button></div><div class="progress-grid"><article class="panel"><div class="panel-heading"><div><h2>体重趋势</h2><p class="muted">7 日移动平均</p></div><strong id="latestWeight">68.4 kg</strong></div><div class="chart" id="weightChart" aria-label="体重趋势图"></div><div class="chart-labels"><span>上周一</span><span>今天</span></div></article><article class="panel"><p class="eyebrow">本周总结</p><h2>你正在稳定前进</h2><ul class="summary-list"><li><b id="weeklyWorkouts">2</b><span>次训练完成</span></li><li><b id="weeklyAdherence">86%</b><span>饮食目标达成</span></li><li><b>−0.3 kg</b><span>体重周均变化</span></li></ul><p class="advice">建议：下周保持当前热量与训练频率，不需要额外收紧饮食。</p></article></div><dialog id="weightDialog"><form method="dialog" id="weightForm"><h2>记录今日体重</h2><label>体重（kg）<input id="weightInput" type="number" min="20" max="300" step="0.1" required value="68.4" /></label><div class="dialog-actions"><button value="cancel" class="secondary">取消</button><button class="primary" value="default">保存</button></div></form></dialog></section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
