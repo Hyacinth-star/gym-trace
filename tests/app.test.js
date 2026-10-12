@@ -13,7 +13,7 @@ assert(html.includes('data-font="rounded"'), 'font selections should exist');
 assert(html.includes('data-theme="purple"'), 'theme selections should exist');
 assert(html.includes('data-language="en"'), 'English language selection should exist');
 assert(html.includes('data-language="ja"'), 'Japanese language selection should exist');
-assert(html.includes('i18n.js?v=4'), 'translation script should use a cache-busting version');
+assert(html.includes('i18n.js?v=5'), 'translation script should use a cache-busting version');
 assert(js.includes('localStorage.setItem'), 'progress must persist locally');
 assert(js.includes('function complete'), 'workout completion flow should exist');
 assert(js.includes('state.meals.push'), 'meal submission must add a meal');
@@ -32,6 +32,7 @@ assert(fs.readFileSync('dist/i18n.js', 'utf8').includes('MutationObserver'), 'dy
 assert(fs.readFileSync('dist/i18n.js', 'utf8').includes('休息 / 未安排'), 'workout rest states should be translated');
 assert(fs.readFileSync('dist/i18n.js', 'utf8').includes('今日目标进度'), 'dashboard goal labels should be translated');
 assert(fs.readFileSync('dist/i18n.js', 'utf8').includes("'周一'"), 'weekday labels should be translated');
+assert(fs.readFileSync('dist/i18n.js', 'utf8').includes('text !== original'), 'translation observer should not rewrite unchanged text');
 assert(fs.readFileSync('dist/fixes.js', 'utf8').includes("addEventListener('submit'"), 'food form should save selected food by weight');
 assert(css.includes('@media(max-width:760px)'), 'layout needs mobile styles');
 assert(css.includes('-apple-system'), 'interface should use platform system typography');

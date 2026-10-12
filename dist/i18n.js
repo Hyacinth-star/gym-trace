@@ -19,7 +19,7 @@
     translating = true; document.documentElement.lang = lang;
     const entries = Object.entries(common).sort((a, b) => b[0].length - a[0].length);
     const walk = node => {
-      if (node.nodeType === Node.TEXT_NODE) { let text = node.nodeValue; entries.forEach(([from, words]) => { text = text.replaceAll(from, words[column]); }); node.nodeValue = text; }
+      if (node.nodeType === Node.TEXT_NODE) { const original = node.nodeValue; let text = original; entries.forEach(([from, words]) => { text = text.replaceAll(from, words[column]); }); if (text !== original) node.nodeValue = text; }
       else if (node.nodeType === Node.ELEMENT_NODE && !['SCRIPT', 'STYLE'].includes(node.tagName)) [...node.childNodes].forEach(walk);
     };
     walk(document.body); translating = false;
