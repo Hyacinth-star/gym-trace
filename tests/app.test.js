@@ -31,6 +31,7 @@ assert(fs.readFileSync('dist/i18n.js', 'utf8').includes('Barbell Squat'), 'full 
 assert(fs.readFileSync('dist/i18n.js', 'utf8').includes('MutationObserver'), 'dynamic content should be translated after rendering');
 assert(fs.readFileSync('dist/i18n.js', 'utf8').includes('休息 / 未安排'), 'workout rest states should be translated');
 assert(fs.readFileSync('dist/i18n.js', 'utf8').includes('今日目标进度'), 'dashboard goal labels should be translated');
+assert(fs.readFileSync('dist/i18n.js', 'utf8').includes("'周一'"), 'weekday labels should be translated');
 assert(fs.readFileSync('dist/fixes.js', 'utf8').includes("addEventListener('submit'"), 'food form should save selected food by weight');
 assert(css.includes('@media(max-width:760px)'), 'layout needs mobile styles');
 assert(css.includes('-apple-system'), 'interface should use platform system typography');
