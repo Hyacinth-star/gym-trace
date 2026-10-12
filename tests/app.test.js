@@ -11,6 +11,8 @@ assert(html.includes('id="customExercise"'), 'custom exercise input should exist
 assert(html.includes('id="settings"'), 'settings page should exist');
 assert(html.includes('data-font="rounded"'), 'font selections should exist');
 assert(html.includes('data-theme="purple"'), 'theme selections should exist');
+assert(html.includes('data-language="en"'), 'English language selection should exist');
+assert(html.includes('data-language="ja"'), 'Japanese language selection should exist');
 assert(js.includes('localStorage.setItem'), 'progress must persist locally');
 assert(js.includes('function complete'), 'workout completion flow should exist');
 assert(js.includes('state.meals.push'), 'meal submission must add a meal');
@@ -18,6 +20,8 @@ assert(js.includes('state.plans'), 'training plans must persist locally');
 assert(js.includes('addExercise'), 'selected exercises must be addable');
 assert(js.includes('applySettings'), 'settings should be applied at runtime');
 assert(js.includes('state.settings'), 'settings must persist locally');
+assert(js.includes('applyLanguage'), 'language choice should be applied at runtime');
+assert(js.includes('copy'), 'translation dictionary should exist');
 assert(css.includes('@media(max-width:760px)'), 'layout needs mobile styles');
 assert(css.includes('-apple-system'), 'interface should use platform system typography');
 assert(css.includes('backdrop-filter:blur'), 'navigation should use translucent glass treatment');
