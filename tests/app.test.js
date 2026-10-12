@@ -14,4 +14,7 @@ assert(js.includes('state.meals.push'), 'meal submission must add a meal');
 assert(js.includes('state.plans'), 'training plans must persist locally');
 assert(js.includes('addExercise'), 'selected exercises must be addable');
 assert(css.includes('@media(max-width:760px)'), 'layout needs mobile styles');
+assert(css.includes('-apple-system'), 'interface should use platform system typography');
+assert(css.includes('backdrop-filter:blur'), 'navigation should use translucent glass treatment');
+assert(css.includes('--blue:#0071e3'), 'interface should use the restrained blue accent');
 console.log('Static product checks passed');
