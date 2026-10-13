@@ -22,7 +22,8 @@ assert(js.includes('addExercise'), 'selected exercises must be addable');
 assert(js.includes('applySettings'), 'settings should be applied at runtime');
 assert(js.includes('state.settings'), 'settings must persist locally');
 assert(js.includes('applyLanguage'), 'language choice should be applied at runtime');
-assert(js.includes("state.settings.font=b.dataset.font;applySettings();location.reload()"), 'changing the font should refresh the page');
+assert(js.includes("state.settings.font=b.dataset.font;applySettings();$('#settingsSaved').textContent"), 'changing the font should save without refreshing');
+assert(js.includes("state.settings.language=b.dataset.language;applySettings();location.reload()"), 'changing the language should refresh the page');
 assert(js.includes('copy'), 'translation dictionary should exist');
 assert(js.includes('completedDates'), 'training completion dates should be stored');
 assert(js.includes('calculateStreak'), 'streak should be calculated from real dates');
@@ -35,7 +36,7 @@ assert(fs.readFileSync('dist/i18n.js', 'utf8').includes('今日目标进度'), '
 assert(fs.readFileSync('dist/i18n.js', 'utf8').includes("'周一'"), 'weekday labels should be translated');
 assert(fs.readFileSync('dist/i18n.js', 'utf8').includes('text !== original'), 'translation observer should not rewrite unchanged text');
 assert(fs.readFileSync('dist/fixes.js', 'utf8').includes("addEventListener('submit'"), 'food form should save selected food by weight');
-assert(fs.readFileSync('dist/fixes.js', 'utf8').includes("event.target.closest('[data-font]')"), 'font clicks should be captured and reload the page');
+assert(!fs.readFileSync('dist/fixes.js', 'utf8').includes("event.target.closest('[data-font]')"), 'font clicks should not force a reload');
 assert(css.includes('@media(max-width:760px)'), 'layout needs mobile styles');
 assert(css.includes('-apple-system'), 'interface should use platform system typography');
 assert(css.includes('backdrop-filter:blur'), 'navigation should use translucent glass treatment');

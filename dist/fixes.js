@@ -40,7 +40,4 @@
     location.reload();
   });
   preview();
-  document.addEventListener('click', event => {
-    if (event.target.closest('[data-font]')) setTimeout(() => location.reload(), 0);
-  }, true);
 })();
