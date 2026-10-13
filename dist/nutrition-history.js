@@ -6,7 +6,8 @@
   }[state.settings.language] || [];
   const panel = document.createElement('article');
   panel.className = 'panel meal-history';
-  panel.innerHTML = `<h2>${words[0]}</h2><p class="muted">${words[8]}</p><label>${words[1]}<input type="date" id="nutritionHistoryDate"></label><select id="nutritionHistoryPicker" aria-label="${words[1]}"></select><div id="nutritionHistoryDetail"></div>`;
+  const savedLabel = {en: 'Recorded days', ja: '記録のある日', 'zh-Hant': '已記錄日期'}[state.settings.language];
+  panel.innerHTML = `<h2>${words[0]}</h2><p class="muted">${words[8]}</p><div class="history-controls"><label>${words[1]}<input type="date" id="nutritionHistoryDate"></label><label>${savedLabel}<select id="nutritionHistoryPicker"></select></label></div><div id="nutritionHistoryDetail" aria-live="polite"></div>`;
   document.querySelector('#nutrition').append(panel);
   const date = panel.querySelector('#nutritionHistoryDate');
   const picker = panel.querySelector('#nutritionHistoryPicker');
@@ -15,14 +16,25 @@
   function show(day) {
     const record = day === state.nutritionDate ? state : state.nutritionHistory?.[day];
     detail.replaceChildren();
+    detail.className = !record || !record.meals?.length ? 'history-empty' : '';
     if (!record || !record.meals?.length) { detail.textContent = words[3]; return; }
-    const totals = document.createElement('p');
-    totals.textContent = ['calories', 'protein', 'carbs', 'fat'].map((key, i) => `${words[4 + i]}: ${amount(record[key])} ${i ? 'g' : 'kcal'}`).join(' · ');
+    const totals = document.createElement('dl');
+    totals.className = 'history-totals';
+    ['calories', 'protein', 'carbs', 'fat'].forEach((key, i) => {
+      const group = document.createElement('div'), label = document.createElement('dt'), value = document.createElement('dd');
+      label.textContent = words[4 + i]; value.textContent = `${amount(record[key])} ${i ? 'g' : 'kcal'}`;
+      group.append(label, value); totals.append(group);
+    });
     detail.append(totals);
     const list = document.createElement('ul');
     for (const meal of record.meals) {
       const item = document.createElement('li');
-      item.textContent = `${meal.name} — ${['calories', 'protein', 'carbs', 'fat'].map((key, i) => `${words[4 + i]}: ${amount(meal[key])} ${i ? 'g' : 'kcal'}`).join(' · ')}`;
+      item.className = 'history-record';
+      const name = document.createElement('span'), values = document.createElement('span');
+      name.className = 'history-food'; name.textContent = meal.name;
+      values.className = 'history-values';
+      values.textContent = ['calories', 'protein', 'carbs', 'fat'].map((key, i) => `${words[4 + i]}: ${amount(meal[key])} ${i ? 'g' : 'kcal'}`).join(' · ');
+      item.append(name, values);
       list.append(item);
     }
     detail.append(list);
