@@ -3,13 +3,13 @@ const vm = require('node:vm');
 const fs = require('node:fs');
 const source = fs.readFileSync('dist/fixes.js', 'utf8');
 function setup(language = 'en') {
-  let saved = { streakVersion: 3, settings: { language }, meals: [], calories: 10, protein: 2, carbs: 3, fat: 4 };
+  let saved = { nutritionDate: require('../dist/nutrition.js').localDate(), streakVersion: 3, settings: { language }, meals: [], calories: 10, protein: 2, carbs: 3, fat: 4 };
   let reloads = 0;
   const fields = {};
   const get = selector => fields[selector] ||= { value: '', addEventListener(type, handler) { this[type] = handler; } };
   const form = { querySelector: get, querySelectorAll: () => ['Name', 'Calories', 'Protein', 'Carbs', 'Fat'].map(x => get('#customMeal' + x)), reportValidity: () => true, addEventListener(type, handler) { this[type] = handler; } };
   get('#mealFood').value = 'chicken'; get('#mealWeight').value = '100';
-  vm.runInNewContext(source, { document: { querySelector: () => ({ cloneNode: () => form, replaceWith() {} }) }, localStorage: { getItem: () => JSON.stringify(saved), setItem: (_, value) => saved = JSON.parse(value) }, location: { reload: () => reloads++ } });
+  vm.runInNewContext(source, { NutritionDates: require('../dist/nutrition.js'), document: { querySelector: () => ({ cloneNode: () => form, replaceWith() {} }) }, localStorage: { getItem: () => JSON.stringify(saved), setItem: (_, value) => saved = JSON.parse(value) }, location: { reload: () => reloads++ } });
   return { form, get, saved: () => saved, reloads: () => reloads, submit: () => form.submit({ preventDefault() {} }) };
 }
 for (const language of ['en', 'ja', 'zh-Hant']) {

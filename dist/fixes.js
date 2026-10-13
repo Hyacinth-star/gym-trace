@@ -52,6 +52,7 @@
       meal = { name: `${food[0]} ${Math.round(grams)}g`, calories: Math.round(food[1] * factor), protein: Number((food[2] * factor).toFixed(1)), carbs: Math.round(food[3] * factor), fat: Math.round(food[4] * factor) };
     }
     const state = JSON.parse(localStorage.getItem(key) || '{}');
+    NutritionDates.rollover(state);
     state.meals = state.meals || [];
     state.meals.push(meal);
     state.calories = (state.calories || 0) + meal.calories;
