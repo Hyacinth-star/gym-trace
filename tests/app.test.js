@@ -22,6 +22,7 @@ assert(js.includes('addExercise'), 'selected exercises must be addable');
 assert(js.includes('applySettings'), 'settings should be applied at runtime');
 assert(js.includes('state.settings'), 'settings must persist locally');
 assert(js.includes('applyLanguage'), 'language choice should be applied at runtime');
+assert(js.includes("state.settings.font=b.dataset.font;applySettings();location.reload()"), 'changing the font should refresh the page');
 assert(js.includes('copy'), 'translation dictionary should exist');
 assert(js.includes('completedDates'), 'training completion dates should be stored');
 assert(js.includes('calculateStreak'), 'streak should be calculated from real dates');
